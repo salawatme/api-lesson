@@ -10,7 +10,11 @@ Route::post('/users/login', [UserController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function (){
     Route::get('/getme', [UserController::class, 'getme']);
-    Route::post('/tasks', [TaskController::class, 'addTask']);
-    Route::get('/tasks', [TaskController::class, 'getTask']);
-    Route::patch('/tasks/{task}', [TaskController::class, 'updateTask']);
+    Route::prefix('/tasks')
+        ->controller(TaskController::class)
+        ->group(function (){
+        Route::post('/', 'addTask');
+        Route::get('/', 'getTask');
+        Route::patch('/{task}','updateTask');
+    });
 });
