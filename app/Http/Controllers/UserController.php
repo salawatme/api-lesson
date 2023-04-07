@@ -10,11 +10,18 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     public function register(RegisterRequest $request){
-         return User::create([
+        $user = User::create([
             'name'=> $request->name,
             'email'=> $request->email,
             'password'=> Hash::make($request->password),
         ]);
+        $success = false;
+        if($user){
+            $success = true;
+        }
+         return response([
+             'successful'=> $success
+         ]);
     }
 
     public function login(Request $request){
